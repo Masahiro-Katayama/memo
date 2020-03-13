@@ -1,0 +1,49 @@
+●node.jsインストール
+
+・確認
+[ node -v ]
+
+
+●npmインストール
+・グローバルにインストール（グローバルにインストールしていない場合）
+[ npm install -g gulp-cli ]
+
+・ローカルにインストール
+[ npm install gulp --save-dev ]
+
+・初期化、package.json作成（プロジェクトフォルダ）
+[ npm init ]
+
+・確認
+[ npm -v ]
+
+★npmインストール
+プロキシを設定する。
+npm -g config set proxy "http://proxy1.his:8080/"
+npm -g config set https-proxy "http://proxy1.his:8080/"
+
+
+●gulpインストール
+
+・グローバルにインストール（グローバルにインストールしていない場合）
+[ npm install -g gulp-cli ]
+
+・ローカルにインストール
+[ npm install gulp --save-dev ]
+
+・確認
+[ gulp -v ]
+
+
+●gulpfile.js作成
+
+・gulpを呼び出す
+[ gulp ]
+
+
+●実行
+グローバルの場合
+コマンド：gulp
+
+ローカルの場合
+コマンド:npx gulp

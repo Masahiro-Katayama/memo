@@ -1,0 +1,128 @@
+●html
+<div id="map"></div>
+
+●js
+/**
+ * google map api
+ * @param {object} tokyo 成田空港の緯度経度
+ * @param {object} destination 到着地の緯度経度
+ * @param {object} heritage 世界遺産の緯度経度
+ * @param {object} path 大圏コースを描く位置
+ * @param {object} img 世界遺産の画像情報
+ */
+google.maps.event.addDomListener(window, 'load', function() {
+  var tokyo = new google.maps.LatLng(35.763889, 140.391667);
+  var destination = new google.maps.LatLng(36.0840041, -115.1559276);
+  var heritage = new google.maps.LatLng(36.1127805, -114.0048244);
+  var path = [tokyo, destination, heritage];
+  var img = {
+    src: '../../img/test/map__img.png',
+    japanese: 'グランドキャニオン',
+    english: 'Grand Canyon',
+  };
+
+  // マップの基本設定
+  var map = new google.maps.Map(document.getElementById('map'), {
+    center: new google.maps.LatLng(30, 155),
+    zoom: 2,
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    styles: [
+      {
+        elementType: 'geometry',
+        stylers: [
+          {
+            color: '#f2eed6',
+          },
+        ],
+      },
+      {
+        elementType: 'labels',
+        stylers: [
+          {
+            visibility: 'off',
+          },
+        ],
+      },
+      {
+        featureType: 'administrative.country',
+        elementType: 'geometry.stroke',
+        stylers: [
+          {
+            color: '#c1aa81',
+          },
+        ],
+      },
+      {
+        featureType: 'administrative.province',
+        elementType: 'geometry.stroke',
+        stylers: [
+          {
+            color: '#c1aa81',
+          },
+        ],
+      },
+      {
+        featureType: 'road',
+        elementType: 'geometry',
+        stylers: [
+          {
+            visibility: 'off',
+          },
+        ],
+      },
+      {
+        featureType: 'transit',
+        stylers: [
+          {
+            visibility: 'off',
+          },
+        ],
+      },
+      {
+        featureType: 'water',
+        elementType: 'geometry',
+        stylers: [
+          {
+            color: '#ffffff',
+          },
+        ],
+      },
+    ],
+  });
+
+  // マーカーの追加
+  var marker = new google.maps.Marker({
+    position: heritage, // マーカーを立てる位置を指定
+    map: map, // マーカーを立てる地図を指定
+    icon: '../../img/test/point.png',
+  });
+
+  // 吹き出しの追加
+  var balloon = new google.maps.InfoWindow({
+    content: '<div class="balloon">\
+                <div class="balloon__img">\
+                  <img class="object-fit" src="' + img.src + '" alt="' + img.japanese + '"/>\
+                </div>\
+                <p class="balloon__name--japanese">' + img.japanese + '</p>\
+                <p class="balloon__name--english">' + img.english + '</p>\
+              </div >',
+  });
+
+  // 吹き出しの初期表示
+  balloon.open(map, marker);
+
+  // マーカーをクリックした時に再表示
+  marker.addListener('click', function() {
+    balloon.open(map, marker);
+  });
+
+  // 大圏コース（円弧）
+  new google.maps.Polyline({
+    geodesic: true,
+    path: path,
+    map: map,
+    strokeColor: '#000', // 色
+    strokeOpacity: 1.0, //透明度
+    strokeWeight: 2, // 太さ
+  });
+});
